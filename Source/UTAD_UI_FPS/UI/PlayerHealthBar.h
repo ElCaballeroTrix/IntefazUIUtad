@@ -15,24 +15,29 @@ class UTAD_UI_FPS_API UPlayerHealthBar : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FSlateColor redColor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FSlateColor greenColor;
 
 	UFUNCTION(BlueprintCallable, Category = Visibility)
 	void Show();
 
 	UFUNCTION(BlueprintCallable, Category = Visibility)
 	void Hide();
-
+	void UpdatePlayerHealthBar(int NewHealth, int MaxHealth);
 protected:
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 private:
-
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UProgressBar* P_PlayerHealthBar;
 	float BlinkTimer = 0.f;
 	bool bIsLowHealth = false;
-	bool bBlinkTurningRed = true;
+	bool bBlinkTurningRed = false;
 
-	void UpdatePlayerHealthBar(int NewHealth, int MaxHealth);
+	
 
 	void LowHealthBlink();
 };

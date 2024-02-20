@@ -6,6 +6,7 @@
 #include "AmmoCounter.h"
 #include "PlayerHealthBar.h"
 #include "ReloadBar.h"
+#include "PlayerSkillPoints.h"
 
 void UPlayerHUD::ShowNoWeapon()
 {
@@ -22,6 +23,7 @@ void UPlayerHUD::ShowAll()
 	AmmoCounterWidget->Show();
 	CrosshairWidget->Show();
 	ReloadBarWidget->Show();
+	PlayerSkillPointsWidget->Show();
 	MinimapWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
@@ -31,5 +33,6 @@ void UPlayerHUD::Hide()
 	AmmoCounterWidget->Hide();
 	CrosshairWidget->Hide();
 	ReloadBarWidget->Hide();
+	PlayerSkillPointsWidget->Hide();
 	MinimapWidget->SetVisibility(ESlateVisibility::Hidden);
 }

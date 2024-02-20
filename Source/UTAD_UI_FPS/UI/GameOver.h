@@ -21,12 +21,14 @@ public:
 	class UButton* B_Exit;
 
 	void Show();
-protected:
-	virtual void NativeConstruct() override;
-private:
+
 	UFUNCTION()
 	void TryAgain();
 	UFUNCTION()
 	void Exit();
+protected:
+	virtual void NativeConstruct() override;
+private:
+	
 
 };

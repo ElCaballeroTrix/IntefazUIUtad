@@ -17,6 +17,7 @@ struct FInputActionValue;
 
 class UPlayerHUD;
 class UGameOver;
+class USkillTree;
 
 DECLARE_DELEGATE_OneParam(FOnTotalBulletsChanged, int /*Total Bullets*/)
 
@@ -48,6 +49,9 @@ class AUTAD_UI_FPSCharacter : public ACharacter
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
+	/** Menu Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* MenuAction;
 
 	
 public:
@@ -65,6 +69,9 @@ public:
 	/** Current Health */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stats)
 	int Health = 100;
+	/** Current Health */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stats)
+	int SkillPoints = 100;
 
 	/** Max Health */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stats)
@@ -85,6 +92,14 @@ public:
 	/** Getter for the int */
 	UFUNCTION(BlueprintCallable, Category = Stats)
 	int GetHealth();
+
+	/** Setter to set the int */
+	UFUNCTION(BlueprintCallable, Category = Stats)
+	void SetSkillPoints(int NewSkillPoints);
+
+	/** Getter for the int */
+	UFUNCTION(BlueprintCallable, Category = Stats)
+	int GetSkillPoints();
 
 	/** Setter to set the int */
 	UFUNCTION(BlueprintCallable, Category = Stats)
@@ -127,6 +142,8 @@ public:
 	TSubclassOf<UPlayerHUD> PlayerHUDWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
 	TSubclassOf<UGameOver> GameOverWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
+	TSubclassOf<USkillTree> SkillTreeWidget;
 
 protected:
 	/** Called for movement input */
@@ -134,6 +151,8 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+	/** Called for menu input */
+	void Menu(const FInputActionValue& Value);
 
 protected:
 	// APawn interface
@@ -157,5 +176,6 @@ private:
 	/** Instances that will be created and showed on viewport */
 	UPlayerHUD* PlayerHUDInstance;
 	UGameOver* GameOverInstance;
+	USkillTree* SkillTreeInstance;
 };
 

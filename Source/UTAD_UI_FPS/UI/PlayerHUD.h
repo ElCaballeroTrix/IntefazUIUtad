@@ -10,7 +10,7 @@ class UAmmoCounter;
 class UCrosshair;
 class UPlayerHealthBar;
 class UReloadBar;
-
+class UPlayerSkillPoints;
 /**
  * 
  */
@@ -25,12 +25,14 @@ public:
 	class UAmmoCounter* AmmoCounterWidget;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UCrosshair* CrosshairWidget;
-	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UPlayerHealthBar* PlayerHealthBarWidget;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UReloadBar* ReloadBarWidget;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UUserWidget* MinimapWidget;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UPlayerSkillPoints* PlayerSkillPointsWidget;
 
 	/** Show the Minimap and the PlayerHealthBar */
 	UFUNCTION(BlueprintCallable, Category = Visibility)

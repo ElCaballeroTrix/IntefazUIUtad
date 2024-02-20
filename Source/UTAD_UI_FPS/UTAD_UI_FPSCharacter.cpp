@@ -12,6 +12,8 @@
 #include "Blueprint/UserWidget.h"
 #include "UI/PlayerHUD.h"
 #include "UI/GameOver.h"
+#include "UI/PlayerHealthBar.h"
+#include "UI/SkillTree.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AUTAD_UI_FPSCharacter
@@ -61,6 +63,8 @@ void AUTAD_UI_FPSCharacter::BeginPlay()
 		PlayerHUDInstance = CreateWidget<UPlayerHUD>(GetWorld(), PlayerHUDWidget);
 		PlayerHUDInstance->AddToViewport();
 		PlayerHUDInstance->ShowNoWeapon();
+		SetHealth(MaxHealth);
+		PlayerHUDInstance->PlayerHealthBarWidget->UpdatePlayerHealthBar(Health, MaxHealth);
 	}
 	else
 	{
@@ -85,6 +89,9 @@ void AUTAD_UI_FPSCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AUTAD_UI_FPSCharacter::Look);
+
+		//Menu
+		EnhancedInputComponent->BindAction(MenuAction, ETriggerEvent::Triggered, this, &AUTAD_UI_FPSCharacter::Menu);
 	}
 }
 
@@ -115,12 +122,25 @@ void AUTAD_UI_FPSCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void AUTAD_UI_FPSCharacter::Menu(const FInputActionValue& Value)
+{
+	if (SkillTreeWidget) {
+		APlayerController* playerController = Cast<APlayerController>(Controller);
+		playerController->SetInputMode(FInputModeUIOnly());
+		playerController->bShowMouseCursor = true;
+		playerController->Pause();
+		SkillTreeInstance = CreateWidget<USkillTree>(GetWorld(), SkillTreeWidget);
+		SkillTreeInstance->AddToViewport();
+	}
+}
+
 void AUTAD_UI_FPSCharacter::SetHealth(int NewHealth)
 {
 	int ClampedNewHealth = FMath::Clamp(NewHealth, 0, MaxHealth);
 	if (ClampedNewHealth != Health)
 	{
 		Health = ClampedNewHealth;
+		PlayerHUDInstance->PlayerHealthBarWidget->UpdatePlayerHealthBar(Health, MaxHealth);
 		if (Health == 0) {
 			if (GameOverWidget) {
 				GameOverInstance = CreateWidget<UGameOver>(GetWorld(), GameOverWidget);
@@ -134,6 +154,16 @@ void AUTAD_UI_FPSCharacter::SetHealth(int NewHealth)
 int AUTAD_UI_FPSCharacter::GetHealth()
 {
 	return Health;
+}
+
+void AUTAD_UI_FPSCharacter::SetSkillPoints(int NewSkillPoints)
+{
+	SkillPoints = NewSkillPoints;
+}
+
+int AUTAD_UI_FPSCharacter::GetSkillPoints()
+{
+	return SkillPoints;
 }
 
 void AUTAD_UI_FPSCharacter::SetMaxHealth(int NewMaxHealth)
