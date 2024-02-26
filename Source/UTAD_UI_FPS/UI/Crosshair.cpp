@@ -5,7 +5,6 @@
 #include "../UTAD_UI_FPS_Enemy.h"
 #include "Components/Image.h"
 #include "Styling/SlateColor.h"
-#include "DrawDebugHelpers.h"
 
 void UCrosshair::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
@@ -17,7 +16,6 @@ void UCrosshair::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	FVector start = playerCamera->GetCameraLocation();
 	FVector end = start + (playerCamera->GetActorForwardVector() * 2000.0f);
 	FCollisionQueryParams collisionParams;
-	DrawDebugLine(world, start, end, FColor::Green, false, 1, 0, 1);
 	bool hit = world->LineTraceSingleByChannel(
 		outHit,
 		start,

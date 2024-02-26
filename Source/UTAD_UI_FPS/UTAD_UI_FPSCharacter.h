@@ -58,7 +58,8 @@ public:
 	AUTAD_UI_FPSCharacter();
 
 protected:
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type endPlayReason) override;
 
 public:
 		
@@ -95,7 +96,7 @@ public:
 
 	/** Setter to set the int */
 	UFUNCTION(BlueprintCallable, Category = Stats)
-	void SetSkillPoints(int NewSkillPoints);
+	void AddSkillPoints(int NewSkillPoints = 1);
 
 	/** Getter for the int */
 	UFUNCTION(BlueprintCallable, Category = Stats)
@@ -152,7 +153,7 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 	/** Called for menu input */
-	void Menu(const FInputActionValue& Value);
+	void Menu();
 
 protected:
 	// APawn interface
@@ -177,5 +178,6 @@ private:
 	UPlayerHUD* PlayerHUDInstance;
 	UGameOver* GameOverInstance;
 	USkillTree* SkillTreeInstance;
+	bool inSkillTreeMenu = false;
 };
 

@@ -7,6 +7,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "UI/EnemyHealthBar.h"
 #include "Components/WidgetComponent.h"
+#include "UTAD_UI_FPSCharacter.h"
 
 
 void AUTAD_UI_FPS_Enemy::BeginPlay()
@@ -45,6 +46,8 @@ void AUTAD_UI_FPS_Enemy::SetHealth(int NewHealth)
 	}
 	if (Health == 0)
 	{
+		AUTAD_UI_FPSCharacter* player = Cast<AUTAD_UI_FPSCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+		player->AddSkillPoints(SkillPointsDropped);
 		Destroy();
 	}
 }

@@ -14,6 +14,7 @@
 #include "UI/GameOver.h"
 #include "UI/PlayerHealthBar.h"
 #include "UI/SkillTree.h"
+#include "UI/PlayerSkillPoints.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AUTAD_UI_FPSCharacter
@@ -65,12 +66,23 @@ void AUTAD_UI_FPSCharacter::BeginPlay()
 		PlayerHUDInstance->ShowNoWeapon();
 		SetHealth(MaxHealth);
 		PlayerHUDInstance->PlayerHealthBarWidget->UpdatePlayerHealthBar(Health, MaxHealth);
+		AddSkillPoints(0);
+		SkillTreeInstance = CreateWidget<USkillTree>(GetWorld(), SkillTreeWidget);
+		SkillTreeInstance->AddToViewport();
+		SkillTreeInstance->Hide();
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("Player HUD Widget not assigned to UTAD_UI_FPSCharacter"));
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Player HUD Widget not assigned to UTAD_UI_FPSCharacter"));
 	}
+}
+
+void AUTAD_UI_FPSCharacter::EndPlay(const EEndPlayReason::Type endPlayReason)
+{
+	Super::EndPlay(endPlayReason);
+	SkillTreeInstance->RemoveFromParent();
+	SkillTreeInstance = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -91,7 +103,7 @@ void AUTAD_UI_FPSCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AUTAD_UI_FPSCharacter::Look);
 
 		//Menu
-		EnhancedInputComponent->BindAction(MenuAction, ETriggerEvent::Triggered, this, &AUTAD_UI_FPSCharacter::Menu);
+		EnhancedInputComponent->BindAction(MenuAction, ETriggerEvent::Completed, this, &AUTAD_UI_FPSCharacter::Menu);
 	}
 }
 
@@ -122,15 +134,24 @@ void AUTAD_UI_FPSCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void AUTAD_UI_FPSCharacter::Menu(const FInputActionValue& Value)
+void AUTAD_UI_FPSCharacter::Menu()
 {
 	if (SkillTreeWidget) {
 		APlayerController* playerController = Cast<APlayerController>(Controller);
-		playerController->SetInputMode(FInputModeUIOnly());
-		playerController->bShowMouseCursor = true;
-		playerController->Pause();
-		SkillTreeInstance = CreateWidget<USkillTree>(GetWorld(), SkillTreeWidget);
-		SkillTreeInstance->AddToViewport();
+		if (!inSkillTreeMenu) {
+			playerController->SetInputMode(FInputModeGameAndUI());
+			playerController->bShowMouseCursor = true;
+			playerController->Pause();
+			SkillTreeInstance->Show();
+			inSkillTreeMenu = true;
+		}
+		else {
+			playerController->SetInputMode(FInputModeGameOnly());
+			playerController->bShowMouseCursor = false;
+			playerController->Pause();
+			SkillTreeInstance->Hide();
+			inSkillTreeMenu = false;
+		}
 	}
 }
 
@@ -156,9 +177,11 @@ int AUTAD_UI_FPSCharacter::GetHealth()
 	return Health;
 }
 
-void AUTAD_UI_FPSCharacter::SetSkillPoints(int NewSkillPoints)
+void AUTAD_UI_FPSCharacter::AddSkillPoints(int NewSkillPoints)
 {
-	SkillPoints = NewSkillPoints;
+	SkillPoints += NewSkillPoints;
+	//Update Widget
+	PlayerHUDInstance->PlayerSkillPointsWidget->UpdatePlayerSkillPoints(SkillPoints);
 }
 
 int AUTAD_UI_FPSCharacter::GetSkillPoints()

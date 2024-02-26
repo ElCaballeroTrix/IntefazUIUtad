@@ -22,6 +22,9 @@ class AUTAD_UI_FPSProjectile : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(EditAnyWhere)
+	class USoundBase* playerHurtSound;
+
 public:
 	AUTAD_UI_FPSProjectile();
 

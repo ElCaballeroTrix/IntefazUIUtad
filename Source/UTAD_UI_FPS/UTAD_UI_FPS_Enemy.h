@@ -27,6 +27,9 @@ public:
 	/** Max Health */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stats)
 	int MaxHealth = 100;
+	/*Skill Points Dropped*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SkillPoints)
+	int SkillPointsDropped = 50;
 
 	/** Setter to set the int */
 	UFUNCTION(BlueprintCallable, Category = Stats)

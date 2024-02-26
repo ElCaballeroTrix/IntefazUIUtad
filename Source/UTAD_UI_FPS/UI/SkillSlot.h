@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "SkillSlot.generated.h"
 
+class USkillTree;
 /**
  * 
  */
@@ -30,11 +31,27 @@ private:
 	UPROPERTY(EditAnyWhere, meta = (BindWidget))
 	class UTextBlock* T_SkillPoints;
 	UPROPERTY(EditAnyWhere)
+	FSlateBrush skillImage;
+	UPROPERTY(EditAnyWhere)
+	FSlateBrush borderImage;
+	UPROPERTY(EditAnyWhere)
 	FSlateBrush unlockedBrushImage;
 	UPROPERTY(EditAnyWhere)
 	FSlateBrush unlockedBrushBorder;
+	UPROPERTY(EditAnyWhere)
+	TArray<USkillSlot*> neighbors;
+	UPROPERTY(EditAnyWhere)
 	bool canBeUnlocked = false;
 	bool acquired = false;
+	USkillTree* skillTree;
+	//Sound
+	UPROPERTY(EditAnyWhere)
+	class USoundBase* hoveredSound;
+	UPROPERTY(EditAnyWhere)
+	class USoundBase* clickedSound;
+	UPROPERTY(EditAnyWhere)
+	class USoundBase* errorSound;
+	//----
 
 	UFUNCTION()
 	void ChangeColor(FLinearColor color);
@@ -47,5 +64,6 @@ protected:
 public:
 	UFUNCTION()
 	void UnlockSkill();
+	void SetSkillTree(USkillTree* newSkillTree);
 
 };
