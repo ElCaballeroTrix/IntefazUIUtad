@@ -15,6 +15,7 @@ void UGameOver::NativeConstruct()
 
 void UGameOver::Show()
 {
+	PlaySound(gameOverSound);
 	APlayerController* playerController = GetOwningPlayer<APlayerController>();
 	playerController->SetInputMode(FInputModeUIOnly());
 	playerController->bShowMouseCursor = true;

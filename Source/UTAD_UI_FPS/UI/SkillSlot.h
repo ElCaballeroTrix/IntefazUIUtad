@@ -30,6 +30,8 @@ private:
 	class UImage* I_SkillImage;
 	UPROPERTY(EditAnyWhere, meta = (BindWidget))
 	class UTextBlock* T_SkillPoints;
+	UPROPERTY(EditAnyWhere, meta = (BindWidget))
+	class UProgressBar* P_HoldingProgress;
 	UPROPERTY(EditAnyWhere)
 	FSlateBrush skillImage;
 	UPROPERTY(EditAnyWhere)
@@ -44,6 +46,9 @@ private:
 	bool canBeUnlocked = false;
 	bool acquired = false;
 	USkillTree* skillTree;
+	bool inConfirmPanel = false;
+	bool playerIsHoldingButton = false;
+	float time = 0.0f;
 	//Sound
 	UPROPERTY(EditAnyWhere)
 	class USoundBase* hoveredSound;
@@ -54,16 +59,20 @@ private:
 	//----
 
 	UFUNCTION()
-	void ChangeColor(FLinearColor color);
-	UFUNCTION()
 	void ShowSkillText();
 	UFUNCTION()
 	void HideSkillText();
+	UFUNCTION()
+	void ClickedSkill();
+	UFUNCTION()
+	void ReleaseSkill();
+	bool CheckIfSkillIsAvailable();
 protected:
 	virtual void NativeConstruct() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 public:
-	UFUNCTION()
 	void UnlockSkill();
 	void SetSkillTree(USkillTree* newSkillTree);
+	void SetInConfirmPanel(bool _inConfirmPanel);
 
 };

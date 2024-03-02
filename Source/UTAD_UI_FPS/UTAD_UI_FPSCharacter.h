@@ -18,6 +18,7 @@ struct FInputActionValue;
 class UPlayerHUD;
 class UGameOver;
 class USkillTree;
+class USplashScreen;
 
 DECLARE_DELEGATE_OneParam(FOnTotalBulletsChanged, int /*Total Bullets*/)
 
@@ -145,6 +146,8 @@ public:
 	TSubclassOf<UGameOver> GameOverWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
 	TSubclassOf<USkillTree> SkillTreeWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
+	TSubclassOf<USplashScreen> SplashScreenWidget;
 
 protected:
 	/** Called for movement input */
@@ -168,6 +171,7 @@ public:
 	/** Returns AttachedWeaponComponent subobject **/
 	UTP_WeaponComponent* GetAttachedWeaponComponent() const { return AttachedWeaponComponent; }
 
+	UPlayerHUD* GetPlayerHUD() { return PlayerHUDInstance; }
 private:
 
 	/****************************************************/
@@ -178,6 +182,7 @@ private:
 	UPlayerHUD* PlayerHUDInstance;
 	UGameOver* GameOverInstance;
 	USkillTree* SkillTreeInstance;
+	USplashScreen* SplashScreenInstance;
 	bool inSkillTreeMenu = false;
 };
 

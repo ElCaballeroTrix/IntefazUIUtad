@@ -14,4 +14,10 @@ class UTAD_UI_FPS_API USplashScreen : public UUserWidget
 {
 	GENERATED_BODY()
 	
+private:
+	float time = 0.0f;
+	APlayerController* playerController;
+public:
+	virtual void NativeConstruct() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };

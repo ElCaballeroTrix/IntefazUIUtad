@@ -36,6 +36,10 @@ void USkillTree::NativeConstruct()
 			skillSlots.Add(skillSlot);
 		}
 	}
+	//Confirm panel
+	P_ConfirmPanel->SetVisibility(ESlateVisibility::Hidden);
+	B_Confirm->OnClicked.AddDynamic(this, &USkillTree::ConfirmNewAbility);
+	B_Cancel->OnClicked.AddDynamic(this, &USkillTree::CancelNewAbility);
 }
 
 void USkillTree::Show()
@@ -61,4 +65,25 @@ void USkillTree::HideSkillText()
 {
 	FString emptyText = "";
 	T_SkillText->SetText(FText::FromString(emptyText));
+}
+
+void USkillTree::OpenConfirmPanel(USkillSlot* newSkill)
+{
+	P_ConfirmPanel->SetVisibility(ESlateVisibility::Visible);
+	skillToBeObtained = newSkill;
+}
+
+void USkillTree::ConfirmNewAbility()
+{
+	skillToBeObtained->UnlockSkill();
+	P_ConfirmPanel->SetVisibility(ESlateVisibility::Hidden);
+	HideSkillText();
+}
+
+void USkillTree::CancelNewAbility()
+{
+	P_ConfirmPanel->SetVisibility(ESlateVisibility::Hidden);
+	skillToBeObtained->SetInConfirmPanel(false);
+	skillToBeObtained = nullptr;
+	HideSkillText();
 }

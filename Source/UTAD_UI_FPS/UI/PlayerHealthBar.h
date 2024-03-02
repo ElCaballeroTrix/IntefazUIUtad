@@ -37,7 +37,5 @@ private:
 	bool bIsLowHealth = false;
 	bool bBlinkTurningRed = false;
 
-	
-
 	void LowHealthBlink();
 };

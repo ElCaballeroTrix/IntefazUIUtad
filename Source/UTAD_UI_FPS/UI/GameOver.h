@@ -19,9 +19,10 @@ public:
 	class UButton* B_TryAgain;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UButton* B_Exit;
+	UPROPERTY(EditAnyWhere)
+	class USoundBase* gameOverSound;
 
 	void Show();
-
 	UFUNCTION()
 	void TryAgain();
 	UFUNCTION()

@@ -15,6 +15,8 @@
 #include "UI/PlayerHealthBar.h"
 #include "UI/SkillTree.h"
 #include "UI/PlayerSkillPoints.h"
+#include "UI/SplashScreen.h"
+#include "UI/PlayerHitMarker.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AUTAD_UI_FPSCharacter
@@ -70,6 +72,8 @@ void AUTAD_UI_FPSCharacter::BeginPlay()
 		SkillTreeInstance = CreateWidget<USkillTree>(GetWorld(), SkillTreeWidget);
 		SkillTreeInstance->AddToViewport();
 		SkillTreeInstance->Hide();
+		SplashScreenInstance = CreateWidget<USplashScreen>(GetWorld(), SplashScreenWidget);
+		SplashScreenInstance->AddToViewport(10);
 	}
 	else
 	{
@@ -162,6 +166,7 @@ void AUTAD_UI_FPSCharacter::SetHealth(int NewHealth)
 	{
 		Health = ClampedNewHealth;
 		PlayerHUDInstance->PlayerHealthBarWidget->UpdatePlayerHealthBar(Health, MaxHealth);
+		PlayerHUDInstance->PlayerHitMarkerWidget->GotHit();
 		if (Health == 0) {
 			if (GameOverWidget) {
 				GameOverInstance = CreateWidget<UGameOver>(GetWorld(), GameOverWidget);

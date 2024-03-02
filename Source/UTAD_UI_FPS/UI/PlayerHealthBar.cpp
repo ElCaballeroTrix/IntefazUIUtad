@@ -9,11 +9,13 @@
 #include "Styling/SlateColor.h"
 #include "Animation/WidgetAnimation.h"
 
+
 #define BLINK_ANIMATION_TIME 1.f
 #define BLINK_THRESHOLD 0.25f
 
 void UPlayerHealthBar::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
+	Super::NativeTick(MyGeometry, InDeltaTime);
 	if (bIsLowHealth) {
 		BlinkTimer += InDeltaTime;
 		bool close = FMath::IsNearlyEqual(BlinkTimer, BLINK_THRESHOLD,0.1);

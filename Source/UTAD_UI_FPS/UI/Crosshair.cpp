@@ -37,6 +37,20 @@ void UCrosshair::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		crossHairBrush.TintColor = normalColor;
 	}
 	I_Crosshair->SetBrush(crossHairBrush);
+
+	//Fire Animation
+	if (bulletFired) {
+		timeBulletFired += InDeltaTime;
+		I_Crosshair->SetRenderTransformAngle(I_Crosshair->GetRenderTransformAngle() + angleImageRotation);
+		if (timeBulletFired >= 1.0f) {
+			timeBulletFired = 0.0f;
+			bulletFired = false;
+			I_Crosshair->SetRenderTransformAngle(0);
+		}
+		if (timeBulletFired >= 0.5f && angleImageRotation > 0.0f) {
+			angleImageRotation *= -1;
+		}
+	}
 }
 
 void UCrosshair::Show()
@@ -47,4 +61,12 @@ void UCrosshair::Show()
 void UCrosshair::Hide()
 {
 	SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UCrosshair::SetBulletFired(bool _bulletFired)
+{
+	bulletFired = _bulletFired;
+	timeBulletFired = 0.0f;
+	I_Crosshair->SetRenderTransformAngle(0);
+	angleImageRotation = FMath::Abs(angleImageRotation);
 }

@@ -23,6 +23,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Visibility)
 	void Hide();
+	void SetBulletFired(bool _bulletFired);
 private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UImage* I_Crosshair;
@@ -30,4 +31,7 @@ private:
 	FSlateColor enemyColor;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	FSlateColor normalColor;
+	bool bulletFired = false;
+	float timeBulletFired = 0.0f;
+	float angleImageRotation = 5.0f;
 };

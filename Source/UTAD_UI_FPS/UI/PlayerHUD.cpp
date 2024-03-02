@@ -7,6 +7,7 @@
 #include "PlayerHealthBar.h"
 #include "ReloadBar.h"
 #include "PlayerSkillPoints.h"
+#include "PlayerHitMarker.h"
 
 void UPlayerHUD::ShowNoWeapon()
 {

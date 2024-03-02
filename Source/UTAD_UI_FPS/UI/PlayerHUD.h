@@ -33,6 +33,8 @@ public:
 	class UUserWidget* MinimapWidget;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UPlayerSkillPoints* PlayerSkillPointsWidget;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UPlayerHitMarker* PlayerHitMarkerWidget;
 
 	/** Show the Minimap and the PlayerHealthBar */
 	UFUNCTION(BlueprintCallable, Category = Visibility)
