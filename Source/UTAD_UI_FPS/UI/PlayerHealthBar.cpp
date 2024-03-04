@@ -18,15 +18,21 @@ void UPlayerHealthBar::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	if (bIsLowHealth) {
 		BlinkTimer += InDeltaTime;
-		bool close = FMath::IsNearlyEqual(BlinkTimer, BLINK_THRESHOLD,0.1);
-		bool close1 = FMath::IsNearlyEqual(BlinkTimer, BLINK_THRESHOLD * 2, 0.1);
-		bool close2 = FMath::IsNearlyEqual(BlinkTimer, BLINK_THRESHOLD * 3, 0.1);
-		if (close || close1 || close2) {
-			LowHealthBlink();
-		}
+		BlinkThresholdTimer += InDeltaTime;
+		ProgressBarScale += ScaleValueToAdd;
+		P_PlayerHealthBar->SetRenderScale(FVector2D(ProgressBarScale, ProgressBarScale));
+		//Animation is 1 second long
 		if (BlinkTimer >= BLINK_ANIMATION_TIME) {
 			LowHealthBlink();
+			BlinkThresholdTimer = 0.0f;
 			BlinkTimer = 0.f;
+			ScaleValueToAdd *= -1;
+		}
+		//Every 0.25 seconds, color and size of progress bar changes
+		else if (BlinkThresholdTimer >= BLINK_THRESHOLD) {
+			BlinkThresholdTimer = 0.0f;
+			LowHealthBlink();
+			ScaleValueToAdd *= -1;
 		}
 
 	}
@@ -46,7 +52,7 @@ void UPlayerHealthBar::UpdatePlayerHealthBar(int NewHealth, int MaxHealth)
 {
 	float percent = static_cast<float>(NewHealth) / MaxHealth;
 	percent = FMath::Clamp(percent, 0, MaxHealth);
-	if (percent <= 0.25) { //If health is below 25% => animation
+	if (percent <= 0.25) { //If health is below 25% ==> animation
 		bIsLowHealth = true;
 		LowHealthBlink();
 	}
@@ -55,6 +61,7 @@ void UPlayerHealthBar::UpdatePlayerHealthBar(int NewHealth, int MaxHealth)
 
 void UPlayerHealthBar::LowHealthBlink()
 {
+	//Changes Color of ProgressBar
 	bBlinkTurningRed = !bBlinkTurningRed;
 	FProgressBarStyle progressbarStyle = P_PlayerHealthBar->GetWidgetStyle();
 	FSlateBrush brush = progressbarStyle.FillImage;

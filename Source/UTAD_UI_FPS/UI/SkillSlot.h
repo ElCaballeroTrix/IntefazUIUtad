@@ -58,19 +58,23 @@ private:
 	class USoundBase* errorSound;
 	//----
 
+	//Connects with Skill Tree passes name and description
 	UFUNCTION()
 	void ShowSkillText();
+	//Connects with Skill Tree and hides name and description
 	UFUNCTION()
 	void HideSkillText();
+	//Sets player is Holding Button to true
 	UFUNCTION()
 	void ClickedSkill();
+	//Sets player is Holding Button to false and connects with skill tree to show confirmation panel
 	UFUNCTION()
 	void ReleaseSkill();
-	bool CheckIfSkillIsAvailable();
 protected:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 public:
+	//Unlocks Skill if able to
 	void UnlockSkill();
 	void SetSkillTree(USkillTree* newSkillTree);
 	void SetInConfirmPanel(bool _inConfirmPanel);

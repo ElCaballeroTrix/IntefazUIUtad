@@ -16,6 +16,7 @@ void UCrosshair::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	FVector start = playerCamera->GetCameraLocation();
 	FVector end = start + (playerCamera->GetActorForwardVector() * 2000.0f);
 	FCollisionQueryParams collisionParams;
+	//Line trace to detect if pointing to an enemy
 	bool hit = world->LineTraceSingleByChannel(
 		outHit,
 		start,
@@ -47,6 +48,7 @@ void UCrosshair::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 			bulletFired = false;
 			I_Crosshair->SetRenderTransformAngle(0);
 		}
+		//After half a second, it starts changing the rotation in reverse
 		if (timeBulletFired >= 0.5f && angleImageRotation > 0.0f) {
 			angleImageRotation *= -1;
 		}

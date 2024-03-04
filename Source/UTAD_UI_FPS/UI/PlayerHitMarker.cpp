@@ -24,6 +24,7 @@ void UPlayerHitMarker::NativeTick(const FGeometry& MyGeometry, float InDeltaTime
 			opacityValue = FMath::Abs(opacityValue);
 			I_Blood->SetRenderOpacity(0.0f);
 		}
+		//After half a second, it starts changing the opacity in reverse
 		if (time >= 0.5f && opacityValue > 0.0f) {
 			opacityValue *= -1;
 		}

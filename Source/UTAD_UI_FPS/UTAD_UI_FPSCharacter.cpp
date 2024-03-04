@@ -166,7 +166,9 @@ void AUTAD_UI_FPSCharacter::SetHealth(int NewHealth)
 	{
 		Health = ClampedNewHealth;
 		PlayerHUDInstance->PlayerHealthBarWidget->UpdatePlayerHealthBar(Health, MaxHealth);
+		//Player Hit Marker
 		PlayerHUDInstance->PlayerHitMarkerWidget->GotHit();
+		//Game Over
 		if (Health == 0) {
 			if (GameOverWidget) {
 				GameOverInstance = CreateWidget<UGameOver>(GetWorld(), GameOverWidget);

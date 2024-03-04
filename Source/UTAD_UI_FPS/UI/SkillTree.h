@@ -21,8 +21,10 @@ public:
 	void ShowSkillText(FString name, FString description);
 	UFUNCTION()
 	void HideSkillText();
+	//Shows the confirmation panel. It obtains a reference to the skill to be confirmed
 	UFUNCTION()
 	void OpenConfirmPanel(USkillSlot* newSkill);
+	//Access the skill function "UpdateSkill" to be confirmed
 	UFUNCTION()
 	void ConfirmNewAbility();
 	UFUNCTION()

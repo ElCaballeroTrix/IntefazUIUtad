@@ -34,6 +34,9 @@ private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UProgressBar* P_PlayerHealthBar;
 	float BlinkTimer = 0.f;
+	float BlinkThresholdTimer = 0.f;
+	float ProgressBarScale = 1.0f;
+	float ScaleValueToAdd = 0.005f;
 	bool bIsLowHealth = false;
 	bool bBlinkTurningRed = false;
 

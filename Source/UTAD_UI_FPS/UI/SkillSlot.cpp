@@ -50,8 +50,8 @@ void USkillSlot::UnlockSkill()
 		
 		playerSkillPoints -= skillPointsNeeded;
 		player->AddSkillPoints(-skillPointsNeeded);
-		//B_SkillButton->SetIsEnabled(false);
 		PlaySound(clickedSound);
+		//Sets all neighbors to be unlockeable by the player
 		for (USkillSlot* neighbor : neighbors)
 		{
 			neighbor->canBeUnlocked = true;
@@ -111,6 +111,7 @@ void USkillSlot::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	if (playerIsHoldingButton) {
 		time += InDeltaTime;
+		//Updates the progress bar so that the player can see how much time he has to maintain the button clicked
 		P_HoldingProgress->SetPercent(FMath::Lerp(P_HoldingProgress->GetPercent(), 1.0f, 0.02f));
 		if (time >= 2.0f) {
 			UnlockSkill();
